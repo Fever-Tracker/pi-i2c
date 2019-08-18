@@ -1,0 +1,10 @@
+version: '2.1'
+volumes:
+  resin-data: {}
+services:
+  i2c:
+    build: ./i2c
+    privileged: true
+    restart: always
+    volumes:
+      - 'resin-data:/data'
