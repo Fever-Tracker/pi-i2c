@@ -6,5 +6,11 @@ services:
     build: ./i2c
     privileged: true
     restart: always
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
     volumes:
       - 'resin-data:/data'
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.firmware: '1'
+      io.balena.features.kernel-modules: '1'
