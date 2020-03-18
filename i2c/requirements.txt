@@ -1,5 +1,5 @@
-smbus
-adafruit-blinka
-numpy
+setuptools
 colour
+pygame
 adafruit-circuitpython-amg88xx
+adafruit-blinka
