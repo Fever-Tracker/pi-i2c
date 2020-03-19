@@ -1,30 +1,27 @@
-FROM balenalib/raspberrypi3-debian-python:3
+FROM balenalib/raspberrypi3-debian-python:3.7
 LABEL maintainer="Dawn Ho <dawn.ho@gmail.com>"
 
-RUN apt-get update && apt-get install -yq \
+RUN apt-get update && apt-get upgrade
+RUN apt-get install -yq \
   gcc \
-  apt-utils \
   i2c-tools \
   libi2c-dev \
   libraspberrypi-bin \
-  python-pygame \
-  wireless-tools \
-  wget
-
-WORKDIR /usr/src
-
-COPY scripts/install-rpi-gpio.sh scripts/install-rpi-gpio.sh
-RUN ./scripts/install-rpi-gpio.sh
-COPY scripts/install-sdl.sh scripts/install-sdl.sh
-RUN ./scripts/install-sdl.sh
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+  make \
+  python3-numpy \
+  python3-pygame \
+  python3-rpi.gpio \
+  python3-scipy \
+  python3-smbus \
+  python3-spidev \
+  python3-sysv-ipc \
+  wireless-tools && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
-
 COPY ./requirements.txt /requirements.txt
 
-RUN pip3 install -r /requirements.txt
+RUN pip3.7 install -r /requirements.txt
 
 COPY . ./
 
