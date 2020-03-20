@@ -8,14 +8,10 @@ RUN apt-get install -yq \
   libi2c-dev \
   libraspberrypi-bin \
   make \
-  python3-numpy \
-  python3-pygame \
   python3-rpi.gpio \
-  python3-scipy \
   python3-smbus \
   python3-spidev \
-  python3-sysv-ipc \
-  wireless-tools && \
+  python3-sysv-ipc && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
@@ -28,3 +24,14 @@ COPY . ./
 ENV INITSYSTEM on
 
 CMD ["bash", "scripts/setup-i2c.sh"]
+
+# libjpeg-dev libfreetype6 libfreetype6-dev \
+
+# python3-matplotlib \
+# python3-numpy \
+# python3-pandas \
+# python3-pygame \
+# python3-scipy \
+
+# wireless-tools \
+# zlib1g-dev && \
