@@ -28,8 +28,6 @@ while True:
   print()
 
 
-
-
 # import time
 # import board
 # import busio

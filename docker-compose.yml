@@ -2,6 +2,11 @@ version: '2.1'
 volumes:
   resin-data: {}
 services:
+  display:
+    build: ./display
+    restart: always
+    ports:
+      - 8080:8080
   i2c:
     build: ./i2c
     privileged: true
@@ -14,9 +19,11 @@ services:
       io.balena.features.dbus: '1'
       io.balena.features.firmware: '1'
       io.balena.features.kernel-modules: '1'
-  kiosk:
-    restart: always
-    build: ./kiosk
-    privileged: true
-    ports:
-      - 8080:8080
+  # kiosk:
+  #   environment:
+  #     - LAUNCH_URL=
+  #   restart: always
+  #   build: ./kiosk
+  #   privileged: true
+  #   ports:
+  #     - 8080:8080
