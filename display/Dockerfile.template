@@ -1,0 +1,9 @@
+FROM balenalib/raspberrypi3-node
+
+COPY ui/ ui/
+
+RUN npm install http-server -g
+
+RUN cd ui
+
+CMD http-server ui
