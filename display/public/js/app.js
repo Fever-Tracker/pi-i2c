@@ -1,13 +1,10 @@
-
-console.log("app.js")
-
 // set the dimensions and margins of the graph
 const margin = {top: 30, right: 30, bottom: 30, left: 30},
   width = 450 - margin.left - margin.right,
   height = 450 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-var svg = d3.select("#App")
+var svg = d3.select("#app")
 .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
@@ -42,246 +39,24 @@ var myColor = d3.scaleLinear()
   .domain([1,100])
 
 //Read the data
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
 
-  svg.selectAll()
-      .data(data, function(d) {return d.group+':'+d.variable;})
-      .enter()
-      .append("rect")
-      .attr("x", function(d) { return x(d.group) })
-      .attr("y", function(d) { return y(d.variable) })
-      .attr("width", x.bandwidth() )
-      .attr("height", y.bandwidth() )
-      .style("fill", function(d) { return myColor(d.value)} )
-
+d3.csv(
+  "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv",
+  d3.autoType
+)
+.then(data => {
+  svg
+    .selectAll()
+    .data(data, d => {
+      d ? d.group+':'+d.variable : this.id;
+    })
+    .enter()
+    .append("rect")
+    .attr("x", function(d) {
+      return x(d.group)
+    })
+    .attr("y", function(d) { return y(d.variable) })
+    .attr("width", x.bandwidth() )
+    .attr("height", y.bandwidth() )
+    .style("fill", function(d) { return myColor(d.value)} )
 })
-
-
-// const shapes = [
-//   [
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#F00",
-//     "#F00",
-//     "#000",
-//     "#000",
-//     "#F00",
-//     "#F00",
-//     "#000",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#000",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#F00",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#F00",
-//     "#F00",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000"
-//   ],
-//   [
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#0F0",
-//     "#0F0",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#0F0",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#0F0",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#0F0",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#0F0",
-//     "#0F0",
-//     "#0F0",
-//     "#0F0",
-//     "#000",
-//     "#000"
-//   ],
-//   [
-//     "#000",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#000",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#FFF",
-//     "#000",
-//     "#000"
-//   ]
-// ];
-//
-// class App {
-//   constructor() {
-//     this.tiles = 8;
-//     this.shape = 0;
-//     this.render();
-//   }
-//   setShape = (shape) => {
-//     this.shape = shape;
-//     this.render();
-//   }
-//   render () {
-//     const element = document.getElementById('App');
-//     element.innerHTML = "";
-//     const shape = shapes[this.shape];
-//     shape.map((color, index) => {
-//       const row = document.createElement("span");
-//       row.className="row";
-//       row.style = `background: ${color}; flex: 0 0 12.5vw; padding-bottom: 12.5vw`;
-//       element.appendChild(row);
-//     })
-//   }
-// }
-//
-// const foo = new App();
-// setInterval(() => {
-//   foo.setShape(Math.floor(Math.random() * shapes.length))
-// }, 1000);
