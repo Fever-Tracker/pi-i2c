@@ -12,16 +12,7 @@ import time
 
 PIXEL_WIDTH = int(os.environ.get("PIXEL_WIDTH"))
 PIXEL_HEIGHT = int(os.environ.get("PIXEL_HEIGHT"))
-
-log_formatter = logging.Formatter('%(message)s')
-logFile = os.environ.get("SENSOR_LOG_FILE")
-my_handler = RotatingFileHandler(logFile, mode='a', maxBytes=5*1024*1024,
-                                 backupCount=2, encoding=None, delay=0)
-my_handler.setFormatter(log_formatter)
-my_handler.setLevel(logging.INFO)
-app_log = logging.getLogger('root')
-app_log.setLevel(logging.INFO)
-app_log.addHandler(my_handler)
+file = os.environ.get("SENSOR_LOG_FILE")
 
 i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
 
@@ -41,16 +32,10 @@ while True:
   data = [{
     'x': i % PIXEL_WIDTH,
     'y': math.floor(i/PIXEL_HEIGHT),
-    'value': x
-  } for i,x in enumerate(frame)]
-  app_log.info(json.dumps(data))
-
-  # for h in range(24):
-  #   for w in range(32):
-  #     t = frame[h*32 + w]
-  #     print("%0.1f, " % t, end="")
-  #   print()
-  # print()
+    'value': value
+  } for i,value in enumerate(frame)]
+  with open(file, 'w') as filetowrite:
+    filetowrite.write(json.dumps(data))
 
 
 # import time

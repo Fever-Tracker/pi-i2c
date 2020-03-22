@@ -1,6 +1,10 @@
+PIXEL_WIDTH = 32;
+PIXEL_HEIGHT = 24;
+SENSOR_LOG_FILE = "/data/ir_sensor.log"
+
 // set the dimensions and margins of the graph
 const margin = {top: 30, right: 30, bottom: 30, left: 30},
-  width = 450 - margin.left - margin.right,
+  width = 600 - margin.left - margin.right,
   height = 450 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -13,50 +17,75 @@ var svg = d3.select("#app")
         "translate(" + margin.left + "," + margin.top + ")");
 
 // Labels of row and columns
-var myGroups = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-var myVars = ["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10"]
+var myX = [...Array(PIXEL_WIDTH).keys()];
+var myY = [...Array(PIXEL_HEIGHT).keys()];
 
-// Build X scales and axis:
+// Build X scales:
 var x = d3.scaleBand()
   .range([ 0, width ])
-  .domain(myGroups)
+  .domain(myX)
   .padding(0.01);
-svg.append("g")
-  .attr("transform", "translate(0," + height + ")")
-  .call(d3.axisBottom(x))
 
-// Build X scales and axis:
+// Build X scales:
 var y = d3.scaleBand()
   .range([ height, 0 ])
-  .domain(myVars)
+  .domain(myY)
   .padding(0.01);
-svg.append("g")
-  .call(d3.axisLeft(y));
 
 // Build color scale
 var myColor = d3.scaleLinear()
-  .range(["white", "#69b3a2"])
-  .domain([1,100])
+  .range(["#191970", "#B22222"])
+  .domain([10,40])
 
-//Read the data
+// Unique Key from coordinates
+const createKeyFromCoordinate = (x,y) => x + '-' + y
 
-d3.csv(
-  "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv",
-  d3.autoType
-)
-.then(data => {
-  svg
-    .selectAll()
-    .data(data, d => {
-      d ? d.group+':'+d.variable : this.id;
-    })
-    .enter()
-    .append("rect")
-    .attr("x", function(d) {
-      return x(d.group)
-    })
-    .attr("y", function(d) { return y(d.variable) })
-    .attr("width", x.bandwidth() )
-    .attr("height", y.bandwidth() )
-    .style("fill", function(d) { return myColor(d.value)} )
+// Build starter heatmap
+const data = [];
+myX.forEach(x => {
+  myY.forEach(y => data.push({ x: x, y: y, value: 0 }))
 })
+
+svg.selectAll()
+  .data(data, d => {
+    d ? d.x+':'+d.y : this.id;
+  })
+  .enter()
+  .append("rect")
+  .attr("x", function(d) {
+    return x(d.x)
+  })
+  .attr("id", d => d ? createKeyFromCoordinate(d.x, d.y) : this.id )
+  .attr("y", function(d) { return y(d.y) })
+  .attr("width", x.bandwidth() )
+  .attr("height", y.bandwidth() )
+  .style("fill", function(d) { return myColor(d.value)} )
+
+const fetchSensorLog = cb => {
+  fetch(SENSOR_LOG_FILE).then(res => {
+    if (res.ok) {
+      res.json().then(data => {
+        cb(data)
+      });
+    } else {
+      console.log("Cannot parse sensor log", res.status);
+    }
+  })
+}
+
+const updateHeatMap = data => {
+  data.forEach(d => {
+    const rect =  document.getElementById(createKeyFromCoordinate(d.x, d.y));
+    rect.style = `fill: ${myColor(d.value)}`
+  })
+}
+
+fetchSensorLog(d => {
+  updateHeatMap(d)
+})
+
+setInterval(() => {
+  fetchSensorLog(d => {
+    updateHeatMap(d)
+  })
+}, 100)
