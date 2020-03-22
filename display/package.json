@@ -1,0 +1,27 @@
+{
+  "name": "thermal-display",
+  "version": "1.0.0",
+  "description": "Display for Thermal Sensor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "~2.7.1",
+    "d3": "~5.15.0",
+    "express": "^4.15.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fever-Tracker/thermal-pi.git"
+  },
+  "keywords": [
+    "IR-sensor"
+  ],
+  "author": "Dawn Ho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fever-Tracker/thermal-pi/issues"
+  },
+  "homepage": "https://github.com/Fever-Tracker/thermal-pi#readme"
+}
