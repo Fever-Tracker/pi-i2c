@@ -6,14 +6,6 @@ const PORT = 8080
 var app = express();
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/poll', (req, res) => {res.json(poll);});
+app.post('/update', (req, res) => {res.json(poll);});
 app.set('port', PORT);
 app.listen(app.get('port'), () => { console.log(`Listening on ${ PORT }`); });
-
-
-  // .use('static', express.static(path.join(__dirname, 'public')))
-  // .set('views', path.join(__dirname, 'views'))
-  // .set('view engine', 'ejs')
-  // .get('/', (req, res) => res.render('pages/index'))
-  // .post('/data', )
-  // .listen(PORT, () => console.log(`Listening on ${ PORT }`))

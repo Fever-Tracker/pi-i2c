@@ -4,23 +4,31 @@ volumes:
 services:
   display:
     build: ./display
-    restart: always
+    environment:
+      - PIXEL_WIDTH=32
+      - PIXEL_HEIGHT=24
+      - SENSOR_LOG_FILE=/data/ir_sensor.log
     ports:
       - 8080:8080
+    restart: always
     volumes:
       - 'resin-data:/data'
   i2c:
     build: ./i2c
-    privileged: true
-    restart: always
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
-    volumes:
-      - 'resin-data:/data'
+    environment:
+      - PIXEL_WIDTH=32
+      - PIXEL_HEIGHT=24
+      - SENSOR_LOG_FILE=/data/ir_sensor.log
     labels:
       io.balena.features.dbus: '1'
       io.balena.features.firmware: '1'
       io.balena.features.kernel-modules: '1'
+    privileged: true
+    restart: always
+    volumes:
+      - 'resin-data:/data'
   # kiosk:
   #   environment:
   #     - LAUNCH_URL=
