@@ -30,7 +30,7 @@ while True:
     continue
   print(frame)
   data = [{
-    'x': i % PIXEL_WIDTH,
+    'x': i % (PIXEL_WIDTH-1),
     'y': math.floor(i/PIXEL_HEIGHT),
     'value': value
   } for i,value in enumerate(frame)]

@@ -6,8 +6,8 @@ services:
     build: ./display
     environment:
       - PIXEL_WIDTH=32
-      - PIXEL_HEIGHT=24
-      - SENSOR_LOG_FILE=/data/ir_sensor.log
+      - PIXEL_HEIGHT=32
+      - SENSOR_LOG_FILE=/data/ir_sensor.json
     ports:
       - 8080:8080
     restart: always
@@ -19,8 +19,8 @@ services:
       - "/dev/i2c-1:/dev/i2c-1"
     environment:
       - PIXEL_WIDTH=32
-      - PIXEL_HEIGHT=24
-      - SENSOR_LOG_FILE=/data/ir_sensor.log
+      - PIXEL_HEIGHT=32
+      - SENSOR_LOG_FILE=/data/ir_sensor.json
     labels:
       io.balena.features.dbus: '1'
       io.balena.features.firmware: '1'

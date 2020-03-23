@@ -1,11 +1,11 @@
 PIXEL_WIDTH = 32;
-PIXEL_HEIGHT = 24;
-SENSOR_LOG_FILE = "/data/ir_sensor.log"
+PIXEL_HEIGHT = 32;
+SENSOR_LOG_FILE = "/static/data/ir_sensor.json"
 
 // set the dimensions and margins of the graph
 const margin = {top: 30, right: 30, bottom: 30, left: 30},
   width = 600 - margin.left - margin.right,
-  height = 450 - margin.top - margin.bottom;
+  height = 600 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#app")
@@ -28,7 +28,7 @@ var x = d3.scaleBand()
 
 // Build X scales:
 var y = d3.scaleBand()
-  .range([ height, 0 ])
+  .range([ 0, height ])
   .domain(myY)
   .padding(0.01);
 
